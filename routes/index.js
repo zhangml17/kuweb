@@ -29,14 +29,15 @@ router.post('/',function(req,res){
  
   
    
-  child_process.execFile('xx.sh',['-m',masterNode,'-n',nodeNode,'-p',sshPwd,'-a',haStrategy],null,function(err,stdout,stderr){
+  child_process.execFile('./xx.sh',['-m',masterNode,'-n',nodeNode,'-p',sshPwd,'-a',haStrategy],null,function(err,stdout,stderr){
     if(err){
-    //  console.log('error');
+      console.log('in err');
       console.log(err);
     }else if(stdout){
-     // console.log('success');
+      console.log('in stdout');
       console.log(stdout);
     }else if(stderr){
+      console.log('in stderr');
       console.log(stderr);
     }       
    });
