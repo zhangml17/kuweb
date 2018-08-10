@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var callfile = require('child_process');
+var child_process = require('child_process');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -29,15 +29,17 @@ router.post('/',function(req,res){
  
   
    
-  callfile.execFile('../xx.sh',['-m',masterNode,'-n',nodeNode,'-p',sshPwd,'-a',haStrategy],function(err,stdout,stderr){
+  child_process.execFile('xx.sh',['-m',masterNode,'-n',nodeNode,'-p',sshPwd,'-a',haStrategy],null,function(err,stdout,stderr){
     if(err){
-      console.log('error');
-    //  console.log(stderr);
-    }else{
-      console.log('success');
-     // console.log(stdout);
-    }        
-  });
+    //  console.log('error');
+      console.log(err);
+    }else if(stdout){
+     // console.log('success');
+      console.log(stdout);
+    }else if(stderr){
+      console.log(stderr);
+    }       
+   });
 });
 
 
