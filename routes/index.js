@@ -29,7 +29,7 @@ router.post('/',function(req,res){
  
   
    
-  child_process.execFile('./xx.sh',['-m',masterNode,'-n',nodeNode,'-p',sshPwd,'-a',haStrategy],null,function(err,stdout,stderr){
+  child_process.execFile('./init.sh',['-m',masterNode,'-n',nodeNode,'-p',sshPwd,'-a',haStrategy,'-v',virtualIp,'-c',cniStrategy,'-x',profixStrategy,'-k',kubernetVersion],null,function(err,stdout,stderr){
     if(err){
       console.log('in err');
       console.log(err);
