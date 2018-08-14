@@ -1,15 +1,33 @@
 var express = require('express');
 var router = express.Router();
 var child_process = require('child_process');
+var path =require('path');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+
+  //下载init.sh文件 并修改权限
+  child_process.exec('wget https://raw.githubusercontent.com/humstarman/ikube/master/init.sh && chmod 777 init.sh',function(err,stdout,stderr){
+    if(err){
+      console.log(err);
+    }else if(stderr){
+      console.log(stderr);
+    }else if(stdout){
+      console.log(stdout);
+    }else{
+      console.log('other...');
+    }
+  });
+
+
+  //渲染安装页面
   res.render('install');
+
 });
 
 router.post('/',function(req,res){
   
-  //定义参数值
+  //获取参数值i
 
   var masterNode = req.body['master_node'];
   var sshPwd = req.body['ssh_pwd'];
@@ -31,29 +49,62 @@ router.post('/',function(req,res){
   var X = '-x';
   var K = '-k';
 
-  if(nodeNode == null){
+
+  if(nodeNode == ""){
     N = "";
   }
 
-  if(virtualIP == null){
+  if(virtualIP == ""){
     V = "";
   }
 
+  //测试
   console.log('=================================');
 
   console.log('master:'+masterNode);
   console.log('SSH:'+sshPwd);
   console.log('node:'+nodeNode);
-  console.log('virtual ip:'+virtualIp);
+  console.log('virtual ip:'+virtualIP);
   console.log('HA:'+haStrategy);
   console.log('ser:'+profixStrategy);
   console.log('CNI:'+cniStrategy);
   console.log('Kuber:'+kubernetVersion);
- 
+
   console.log('=================================');
-   
-  child_process.execFile('./init.sh',[M,masterNode,N,nodeNode,P,sshPwd,A,haStrategy,V,virtualIP,C,cniStrategy,X,profixStrategy,K,kubernetVersion],null,function(err,stdout,stderr){
-    if(err){
+ 
+  //var obj = new Object(); 
+  var args =[M,masterNode,N,nodeNode,P,sshPwd,A,haStrategy,V,virtualIP,C,cniStrategy,X,profixStrategy,K,kubernetVersion];
+// var execPath = path.resolve(__dirname,'./init.sh');
+ // console.log(__dirname);
+ // for(var x in args){
+ // obj[x] = x;
+ // }
+ //
+
+/* child_process.exec('sed -i s?"bin/bash"?"usr/bin/env node"?g init.sh',function(err,stdout,stderr){
+  if(err){
+    console.log('in err...');
+    console.log(err);
+  }else if(stdout){
+    console.log('in stdout。。。');
+    console.log(stdout);
+  }else if(stderr){
+    console.log('in stderr');
+    console.log(stderr);
+  }else{
+    console.log('in others...');
+  }
+ }); */
+ 
+//child_process.execFile('/root/kuweb-master/init.sh',[M,masterNode,N,nodeNode,P,sshPwd,A,haStrategy,V,virtualIP,C,cniStrategy,X,profixStrategy,K,kubernetVersion],function(err,stdout,stderr){
+ child_process.exec('./init.sh'+' '+M+' '+masterNode+' '+N+' '+nodeNode+' '+P+' '+sshPwd+' '+A+' '+haStrategy+' '+V+' '+virtualIP+' '+C+' '+
+             cniStrategy+' '+X+' '+profixStrategy+' '+K+' '+kubernetVersion+' > /tmp/install.log',function(err,stdout,stderr){ 
+//child_process.execFile('./init.sh',args,null,function(err,stdout,stderr){  
+//
+  // console.log(process.env.PATH);
+   //打印子进程当前的工作目录/root/kuweb-master
+   //console.log(process.cwd());
+   if(err){
       console.log('in err');
       console.log(err);
     }else if(stdout){
