@@ -2,6 +2,9 @@ var express = require('express');
 var router = express.Router();
 var child_process = require('child_process');
 var path =require('path');
+var readline = require('readline');
+var fs = require('fs');
+//var sleep = require('sleep');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -116,7 +119,24 @@ router.post('/',function(req,res){
     }
    });
 
-res.render('afterinstall');
+   //把日志文件按行读取，但是并没有按行显示在页面上
+    res.writeHead(200,{'Content-type':'text/html;chartset=utf8'});
+   
+   var r1 = readline.createInterface({
+     input:fs.createReadStream("/tmp/install.log")
+  });
+
+  var i =1 ;
+
+  r1.on('line',(line)=>{
+    res.write('Line from file:'+i+":"+line+'<br/>');
+      
+//    sleep.sleep(5);
+
+    i += 1;
+  });
+   
+  //res.render('afterinstall');
 
   
 });
