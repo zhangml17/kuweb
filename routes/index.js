@@ -113,8 +113,12 @@ router.post('/',function(req,res){
     }else if(stderr){
       console.log('in stderr');
       console.log(stderr);
-    }       
+    }
    });
+
+res.render('afterinstall');
+
+  
 });
 
 
