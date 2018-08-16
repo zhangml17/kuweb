@@ -120,7 +120,7 @@ router.post('/',function(req,res){
    });
 
    //把日志文件按行读取，但是并没有按行显示在页面上
-    res.writeHead(200,{'Content-type':'text/html;chartset=utf8'});
+/*    res.writeHead(200,{'Content-type':'text/html;chartset=utf8'});
    
    var r1 = readline.createInterface({
      input:fs.createReadStream("/tmp/install.log")
@@ -134,9 +134,9 @@ router.post('/',function(req,res){
 //    sleep.sleep(5);
 
     i += 1;
-  });
+  });*/
    
-  //res.render('afterinstall');
+  res.render('afterinstall');
 
   
 });
